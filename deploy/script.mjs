@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
-const execa = require("execa");
-const fs = require("fs");
+import { execa } from "execa";
+import fs from "node:fs";
 (async () => {
   try {
     // branch setting
     const targetBranch = 'deploy';
-    const mainBranch = 'master'; // main / master
+    const mainBranch = 'master';
     // init targetBranch
     await execa("git", ["checkout", "--orphan", targetBranch]);
     // eslint-disable-next-line no-console
     console.log("Building started...");
-    await execa("npm", ["build"]);
+    await execa("npm", ["run", "build"]);
     // Understand if it's dist or build folder
     const folderName = fs.existsSync("dist") ? "dist" : "build";
     await execa("git", ["--work-tree", folderName, "add", "--all"]);
